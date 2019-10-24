@@ -1,0 +1,2 @@
+{:watch-dirs       ["src"]
+ :css-dirs         ["resources/public/css"]}

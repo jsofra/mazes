@@ -9,6 +9,22 @@
 (def hilbert-curve (gen-lsystem "A" {"A" "-BF+AFA+FB-"
                                      "B" "+AF-BFB-FA+"}))
 
+(defn new-point [[x y] dist dir]
+  (let [dir (* dir (/ Math/PI 180))]
+    [(+ x (* dist (Math/cos dir)))
+     (+ y (* dist (Math/sin dir)))]))
+
+(defn generate-points [start-point steps]
+  (loop [[step & steps] steps
+         angle        90
+         points       [start-point]]
+    (case step
+      "+" (recur steps (mod (+ angle 90) 360) points)
+      "-" (recur steps (mod (- angle 90) 360) points)
+      "F" (recur steps angle (conj points (new-point (last points) 10 angle)))
+      nil points
+      (recur steps angle points))))
+
 (def request-animation-frame
   (or js/requestAnimationFrame
       js/webkitRequestAnimationFrame))
@@ -28,28 +44,6 @@
   (.clearRect ctx 0 0 width height)
   (.restore ctx))
 
-(defn new-point [[x y] dist dir]
-  (let [dir (* dir (/ Math/PI 180))]
-    [(+ x (* dist (Math/cos dir)))
-     (+ y (* dist (Math/sin dir)))]))
-
-(defn generate-points [start-point steps]
-  (loop [[step & steps] steps
-         angle          90
-         points         [start-point]]
-    (if step
-      (let [dir (mod (case step
-                       "+" (+ angle 90)
-                       "-" (- angle 90)
-                       angle)
-                     360)]
-        (recur steps
-               dir
-               (if (= step "F")
-                 (conj points (new-point (last points) 10 dir))
-                 points)))
-      points)))
-
 (defn draw-line [{:keys [ctx]} points]
   (let [[[start-x start-y] & points] points]
     (.beginPath ctx)
@@ -60,6 +54,6 @@
     (.stroke ctx)))
 
 (do (clear-canvas context)
-    (->> (nth hilbert-curve 5)
+    (->> (nth hilbert-curve 4)
          (generate-points [100 100])
          (draw-line context)))

@@ -20,6 +20,7 @@
   (.restore ctx))
 
 (defn draw-line [{:keys [ctx]} points]
+  (aset ctx "strokeStyle" "#3C8D0D")
   (let [[[start-x start-y] & points] points]
     (.beginPath ctx)
     (.moveTo ctx start-x start-y)

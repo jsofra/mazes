@@ -28,9 +28,9 @@
       (canvas/draw-line context [(point to) (point from)]))))
 
 (comment
-  (count (:visited (gen-maze [0 0] 40 40)))
+  (count (:visited (gen-maze [0 0] 80 80)))
 
   (do (canvas/clear-canvas canvas/context)
-      (->> (gen-maze [0 0] 20 20)
+      (->> (gen-maze [0 0] 40 40)
            (draw-maze canvas/context)))
   )

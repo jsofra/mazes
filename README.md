@@ -6,7 +6,7 @@ Maze generation experiments
 
 ![](docs/woodenmaze.jpg)
 
-I am trying to come up with a waay to generate random versions of this type of maze.
+I am trying to come up with a way to generate random versions of this type of maze.
 It is a unicursal maze, has no dead-end, also known as Labyrinth.
 It also appears to be a type of space filling curve, with holes on the space that is being filled.
 Many space filling curves can be generated using L-systems.
